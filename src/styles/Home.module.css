@@ -1,0 +1,188 @@
+.layout {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  align-items: flex-start;
+}
+
+.catalogo {
+  flex: 2;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.2rem; /* más aire entre cards */
+}
+
+
+
+
+.carrito {
+  flex: 1;
+  min-width: 280px;
+  max-width: 320px;
+  background-color: #f9f9f9;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  height: fit-content;
+}
+
+.carrito ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem 0;
+}
+
+.carrito li {
+  margin-bottom: 0.5rem;
+  font-size: 14px;
+}
+
+.resumen p {
+  margin: 0.3rem 0;
+  font-size: 14px;
+}
+
+
+
+.btnContinuar {
+  margin-top: 1rem;
+  padding: 0.6rem 1.2rem;
+  background-color: #ff5023;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btnContinuar:hover {
+  background-color: #d35400;
+}
+
+.formularioPedido {
+  margin-top: 2rem;
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 9px #a199994d;
+}
+
+.formularioPedido form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.formularioPedido input {
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.formularioPedido button {
+  padding: 0.6rem;
+  background-color: #ff5023;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modalFormulario {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.modalFormulario h3 {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.modalFormulario form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 2rem;
+}
+
+
+.modalFormulario input {
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.modalBotones {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modalBotones button {
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.modalBotones button[type="submit"] {
+  background-color: #27ae60;
+  color: white;
+}
+
+.modalBotones button[type="button"] {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.modalFormulario label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+  font-size: 14px;
+  margin-bottom: 1rem;
+}
+
+.modalFormulario input,
+.modalFormulario textarea,
+.modalFormulario select {
+  margin-top: 0.3rem;
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  width: 100%;
+}
+
+.modalFormulario textarea,
+.modalBotones {
+  grid-column: 1 / -1;
+}
+
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
