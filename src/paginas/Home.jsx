@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ProductoCard from '../componentes/ProductoCard';
+import CarritoItem from '../componentes/CarritoItem';
+import CarritoResumen from '../componentes/CarritoResumen';
+import FormularioPedido from '../componentes/FormularioPedido';
+import EntregaSelector from '../componentes/EntregaSelector';
 import styles from '../styles/Home.module.css';
 
 const Home = () => {
@@ -8,8 +12,6 @@ const Home = () => {
   const [carrito, setCarrito] = useState([]);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [tipoEntrega, setTipoEntrega] = useState('domicilio'); // 'domicilio' o 'retiro'
-
-
 
   useEffect(() => {
     axios.get('http://localhost:3000/api/productos')
@@ -97,142 +99,65 @@ const Home = () => {
 
   return (
     <>
-      <div className={styles.entregaCard}>
-        <div className={styles.entregaOpciones}>
-          <button
-            className={`${styles.entregaBtn} ${tipoEntrega === 'domicilio' ? styles.activo : ''}`}
-            onClick={() => setTipoEntrega('domicilio')}
-          >
-            Entrega a domicilio
-          </button>
-          <button
-            className={`${styles.entregaBtn} ${tipoEntrega === 'retiro' ? styles.activo : ''}`}
-            onClick={() => setTipoEntrega('retiro')}
-          >
-            Retirar en el local
-          </button>
-        </div>
-
-        <div className={styles.horarioBox}>
-          <p><strong>Horario de entrega:</strong> Lo antes posible</p>
-          <details>
-            <summary>Ver horarios por día</summary>
-            <ul className={styles.horarioLista}>
-              <li><strong>DO</strong>: 11:30–16:00 | 11:30–23:00</li>
-              <li><strong>LU</strong>: 11:30–16:00 | 19:00–23:30</li>
-              <li><strong>MA</strong>: 11:30–16:00 | 19:00–23:30</li>
-              <li><strong>MI</strong>: 11:30–16:00 | 19:00–23:30</li>
-              <li><strong>JU</strong>: 11:30–16:00 | 19:00–23:30</li>
-              <li><strong>VI</strong>: 11:30–16:00 | 19:00–23:30</li>
-              <li><strong>SA</strong>: 11:30–16:00 | 19:00–23:30</li>
-            </ul>
-          </details>
-        </div>
-      </div>
+      <EntregaSelector tipoEntrega={tipoEntrega} setTipoEntrega={setTipoEntrega} />
 
       <div className={styles.layout}>
         <div className={styles.catalogo}>
           <h2>Menú de Empanadas</h2>
           <div className={styles.grid}>
             {productos.map((producto) => (
-            <ProductoCard
-              key={producto.id}
-              producto={producto}
-              onAgregar={agregarAlCarrito}
-            />
-          ))}
-        </div>
-      </div>
-
-      <aside className={styles.carrito}>
-        <h3>Tu pedido</h3>
-        {carrito.length === 0 ? (
-          <p>No hay productos en el carrito.</p>
-        ) : (
-          <>
-            <ul>
-              {carrito.map((item) => (
-                <li key={item.id}>
-                  {item.nombre} <br />
-                  (x{item.cantidad}) ${item.precio * item.cantidad}
-                </li>
-              ))}
-            </ul>
-
-            <div className={styles.resumen}>
-              <h4>Resumen</h4>
-              <p>Subtotal: ${calcularSubtotal()}</p>
-              <p>Costo de envío: ${costoEnvio}</p>
-              <p><strong>Total: ${calcularTotal()}</strong></p>
-              <button className={styles.btnContinuar} onClick={() => setMostrarFormulario(true)}>
-                Continuar pedido
-              </button>
-            </div>
-          </>
-        )}
-      </aside>
-      {mostrarFormulario && (
-        <div className={styles.modalOverlay}>
-          <div className={styles.modalFormulario}>
-            <h3>Datos generales</h3>
-            <form onSubmit={handleConfirmarPedido}>
-              <label>
-                Nombre y apellido
-                <input type="text" name="nombre" placeholder="Juan Pérez" required />
-              </label>
-
-              <label>
-                Correo electrónico
-                <input type="email" name="email" placeholder="ejemplo@gmail.com" required />
-              </label>
-
-              <label>
-                Teléfono
-                  <input type="tel" name="telefono" placeholder="011 15-2345-6789" required />
-                </label>
-
-                {tipoEntrega === 'domicilio' && (
-                  <>
-                    <label>
-                      Dirección
-                      <input type="text" name="direccion" placeholder="Av. Argentina 1234" required />
-                    </label>
-
-                    <label>
-                      Piso y departamento
-                      <input type="text" name="pisoDepto" placeholder="Ej: 1B" />
-                    </label>
-                  </>
-                )}
-
-                <label>
-                  Forma de pago
-                  <select name="formaPago" required>
-                  <option value="">Seleccionar</option>
-                  <option value="efectivo">Efectivo</option>
-                  <option value="transferencia">Transferencia</option>
-                  <option value="mercadoPago">Mercado Pago</option>
-                </select>
-              </label>
-
-              <label>
-                Comentarios
-                <textarea name="comentarios" placeholder="Algo que quieras aclarar..." rows="3" />
-              </label>
-
-              <div className={styles.modalBotones}>
-                <button type="submit">Confirmar pedido</button>
-                <button type="button" onClick={() => setMostrarFormulario(false)}>Cancelar</button>
-              </div>
-            </form>
-
+              <ProductoCard
+                key={producto.id}
+                producto={producto}
+                onAgregar={agregarAlCarrito}
+              />
+            ))}
           </div>
         </div>
-        
-      )}
 
-    </div>
+        <aside className={styles.carrito}>
+          <h3>Tu pedido</h3>
+          {carrito.length === 0 ? (
+            <p>No hay productos en el carrito.</p>
+          ) : (
+            <>
+              <ul>
+                {carrito.map((item) => (
+                  <CarritoItem
+                    key={item.id}
+                    item={item}
+                    onEditar={(id) => {
+                      const nuevoCarrito = carrito.map((p) =>
+                        p.id === id ? { ...p, cantidad: p.cantidad + 1 } : p
+                      );
+                      setCarrito(nuevoCarrito);
+                    }}
+                    onEliminar={(id) =>
+                      setCarrito((prev) => prev.filter((p) => p.id !== id))
+                    }
+                  />
+                ))}
+              </ul>
+              <CarritoResumen
+                subtotal={calcularSubtotal()}
+                envio={costoEnvio}
+                total={calcularTotal()}
+                onContinuar={() => setMostrarFormulario(true)}
+              />
+            </>
+          )}
+        </aside>
+      </div>
+
+      {mostrarFormulario && (
+        <FormularioPedido
+          tipoEntrega={tipoEntrega}
+          onClose={() => setMostrarFormulario(false)}
+          onSubmit={handleConfirmarPedido}
+        />
+      )}
     </>
+
   );
 
 };
