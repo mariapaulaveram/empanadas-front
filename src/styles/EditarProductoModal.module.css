@@ -77,3 +77,23 @@
   border-radius: 6px;
   resize: vertical;
 }
+
+.precioUnitario {
+  margin-top: 0.5rem;
+  font-size: 15px;
+  color: #ff5023;
+}
+
+.contador {
+  font-size: 12px;
+  color: #666;
+  text-align: right;
+  margin-top: 4px;
+}
+
+.subtotal {
+  font-size: 15px;
+  font-weight: bold;
+  margin-top: 0.5rem;
+  color: #333;
+}

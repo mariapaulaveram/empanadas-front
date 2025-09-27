@@ -16,7 +16,9 @@ const Home = () => {
   const [productoEditando, setProductoEditando] = useState(null);
   const [cantidadEditando, setCantidadEditando] = useState(1);
   const [comentarioEditando, setComentarioEditando] = useState('');
-
+  const [subtotal, setSubtotal] = useState(0);
+  const [total, setTotal] = useState(0);
+  const costoEnvio = 0;
 
   useEffect(() => {
     axios.get('http://localhost:3000/api/productos')
@@ -27,6 +29,11 @@ const Home = () => {
       .catch((error) => console.error('Error al cargar productos:', error));
   }, []);
 
+  useEffect(() => {
+  const nuevoSubtotal = carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
+  setSubtotal(nuevoSubtotal);
+  setTotal(nuevoSubtotal + costoEnvio);
+  }, [carrito, costoEnvio]);
 
 
   const agregarAlCarrito = (producto) => {
@@ -48,7 +55,7 @@ const Home = () => {
   const calcularSubtotal = () =>
     carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
 
-  const costoEnvio = 0;
+  
   const calcularTotal = () => calcularSubtotal() + costoEnvio;
 
   const handleConfirmarPedido = (e) => {
@@ -79,9 +86,10 @@ const Home = () => {
         subtotal: p.precio * p.cantidad,
         comentario: p.comentario || ''
       })),
-      subtotal: calcularSubtotal(),
+      subtotal,
       envio: costoEnvio,
-      total: calcularTotal(),
+      total,
+
       fecha: new Date().toISOString().slice(0, 19).replace('T', ' '),
       estado: "pendiente"
     };
@@ -146,11 +154,12 @@ const Home = () => {
                 ))}
               </ul>
               <CarritoResumen
-                subtotal={calcularSubtotal()}
+                subtotal={subtotal}
                 envio={costoEnvio}
-                total={calcularTotal()}
+                total={total}
                 onContinuar={() => setMostrarFormulario(true)}
               />
+
             </>
           )}
         </aside>
