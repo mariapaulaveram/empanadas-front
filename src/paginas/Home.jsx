@@ -5,6 +5,7 @@ import CarritoItem from '../componentes/CarritoItem';
 import CarritoResumen from '../componentes/CarritoResumen';
 import FormularioPedido from '../componentes/FormularioPedido';
 import EntregaSelector from '../componentes/EntregaSelector';
+import EditarProductoModal from '../componentes/EditarProductoModal';
 import styles from '../styles/Home.module.css';
 
 const Home = () => {
@@ -12,6 +13,10 @@ const Home = () => {
   const [carrito, setCarrito] = useState([]);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [tipoEntrega, setTipoEntrega] = useState('domicilio'); // 'domicilio' o 'retiro'
+  const [productoEditando, setProductoEditando] = useState(null);
+  const [cantidadEditando, setCantidadEditando] = useState(1);
+  const [comentarioEditando, setComentarioEditando] = useState('');
+
 
   useEffect(() => {
     axios.get('http://localhost:3000/api/productos')
@@ -71,7 +76,8 @@ const Home = () => {
         nombre: p.nombre,
         cantidad: p.cantidad,
         precioUnitario: p.precio,
-        subtotal: p.precio * p.cantidad
+        subtotal: p.precio * p.cantidad,
+        comentario: p.comentario || ''
       })),
       subtotal: calcularSubtotal(),
       envio: costoEnvio,
@@ -127,11 +133,12 @@ const Home = () => {
                     key={item.id}
                     item={item}
                     onEditar={(id) => {
-                      const nuevoCarrito = carrito.map((p) =>
-                        p.id === id ? { ...p, cantidad: p.cantidad + 1 } : p
-                      );
-                      setCarrito(nuevoCarrito);
+                      const producto = carrito.find((p) => p.id === id);
+                      setProductoEditando(producto);
+                      setCantidadEditando(producto.cantidad);
+                      setComentarioEditando(producto.comentario || '');
                     }}
+
                     onEliminar={(id) =>
                       setCarrito((prev) => prev.filter((p) => p.id !== id))
                     }
@@ -148,6 +155,26 @@ const Home = () => {
           )}
         </aside>
       </div>
+      {productoEditando && (
+        <EditarProductoModal
+          producto={productoEditando}
+          cantidad={cantidadEditando}
+          setCantidad={setCantidadEditando}
+          comentario={comentarioEditando}
+          setComentario={setComentarioEditando}
+          onGuardar={() => {
+            setCarrito((prev) =>
+              prev.map((p) =>
+                p.id === productoEditando.id
+                  ? { ...p, cantidad: cantidadEditando, comentario: comentarioEditando }
+                  : p
+              )
+            );
+            setProductoEditando(null);
+          }}
+          onCancelar={() => setProductoEditando(null)}
+        />
+      )}
 
       {mostrarFormulario && (
         <FormularioPedido
