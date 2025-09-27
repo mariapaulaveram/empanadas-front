@@ -7,6 +7,8 @@ const Home = () => {
   const [productos, setProductos] = useState([]);
   const [carrito, setCarrito] = useState([]);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
+  const [tipoEntrega, setTipoEntrega] = useState('domicilio'); // 'domicilio' o 'retiro'
+
 
 
   useEffect(() => {
@@ -46,16 +48,22 @@ const Home = () => {
     e.preventDefault();
     const datos = Object.fromEntries(new FormData(e.target));
 
+    const cliente = {
+      nombre: datos.nombre,
+      email: datos.email,
+      telefono: datos.telefono,
+      comentarios: datos.comentarios,
+      formaPago: datos.formaPago
+    };
+
+    if (tipoEntrega === 'domicilio') {
+      cliente.direccion = datos.direccion;
+      cliente.pisoDepto = datos.pisoDepto;
+    }
+
     const pedido = {
-      cliente: {
-        nombre: datos.nombre,
-        email: datos.email,
-        telefono: datos.telefono,
-        direccion: datos.direccion,
-        pisoDepto: datos.pisoDepto,
-        comentarios: datos.comentarios,
-        formaPago: datos.formaPago
-      },
+      tipoEntrega, // 👈 se guarda la opción elegida
+      cliente,
       productos: carrito.map((p) => ({
         id: p.id,
         nombre: p.nombre,
@@ -69,6 +77,7 @@ const Home = () => {
       fecha: new Date().toISOString().slice(0, 19).replace('T', ' '),
       estado: "pendiente"
     };
+
 
     console.log("🧾 Pedido que se envía:", pedido);
 
@@ -87,11 +96,45 @@ const Home = () => {
 
 
   return (
-    <div className={styles.layout}>
-      <div className={styles.catalogo}>
-        <h2>Menú de Empanadas</h2>
-        <div className={styles.grid}>
-          {productos.map((producto) => (
+    <>
+      <div className={styles.entregaCard}>
+        <div className={styles.entregaOpciones}>
+          <button
+            className={`${styles.entregaBtn} ${tipoEntrega === 'domicilio' ? styles.activo : ''}`}
+            onClick={() => setTipoEntrega('domicilio')}
+          >
+            Entrega a domicilio
+          </button>
+          <button
+            className={`${styles.entregaBtn} ${tipoEntrega === 'retiro' ? styles.activo : ''}`}
+            onClick={() => setTipoEntrega('retiro')}
+          >
+            Retirar en el local
+          </button>
+        </div>
+
+        <div className={styles.horarioBox}>
+          <p><strong>Horario de entrega:</strong> Lo antes posible</p>
+          <details>
+            <summary>Ver horarios por día</summary>
+            <ul className={styles.horarioLista}>
+              <li><strong>DO</strong>: 11:30–16:00 | 11:30–23:00</li>
+              <li><strong>LU</strong>: 11:30–16:00 | 19:00–23:30</li>
+              <li><strong>MA</strong>: 11:30–16:00 | 19:00–23:30</li>
+              <li><strong>MI</strong>: 11:30–16:00 | 19:00–23:30</li>
+              <li><strong>JU</strong>: 11:30–16:00 | 19:00–23:30</li>
+              <li><strong>VI</strong>: 11:30–16:00 | 19:00–23:30</li>
+              <li><strong>SA</strong>: 11:30–16:00 | 19:00–23:30</li>
+            </ul>
+          </details>
+        </div>
+      </div>
+
+      <div className={styles.layout}>
+        <div className={styles.catalogo}>
+          <h2>Menú de Empanadas</h2>
+          <div className={styles.grid}>
+            {productos.map((producto) => (
             <ProductoCard
               key={producto.id}
               producto={producto}
@@ -145,22 +188,26 @@ const Home = () => {
 
               <label>
                 Teléfono
-                <input type="tel" name="telefono" placeholder="011 15-2345-6789" required />
-              </label>
+                  <input type="tel" name="telefono" placeholder="011 15-2345-6789" required />
+                </label>
 
-              <label>
-                Dirección
-                <input type="text" name="direccion" placeholder="Av. Argentina 1234" required />
-              </label>
+                {tipoEntrega === 'domicilio' && (
+                  <>
+                    <label>
+                      Dirección
+                      <input type="text" name="direccion" placeholder="Av. Argentina 1234" required />
+                    </label>
 
-              <label>
-                Piso y departamento
-                <input type="text" name="pisoDepto" placeholder="Ej: 1B" />
-              </label>
+                    <label>
+                      Piso y departamento
+                      <input type="text" name="pisoDepto" placeholder="Ej: 1B" />
+                    </label>
+                  </>
+                )}
 
-              <label>
-                Forma de pago
-                <select name="formaPago" required>
+                <label>
+                  Forma de pago
+                  <select name="formaPago" required>
                   <option value="">Seleccionar</option>
                   <option value="efectivo">Efectivo</option>
                   <option value="transferencia">Transferencia</option>
@@ -181,10 +228,11 @@ const Home = () => {
 
           </div>
         </div>
+        
       )}
 
     </div>
-
+    </>
   );
 
 };

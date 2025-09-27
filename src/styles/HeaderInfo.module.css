@@ -103,9 +103,9 @@
   justify-content: center;
 }
 
-.iconWrapper:hover {
+/*.iconWrapper:hover {
   transform: translateY(-2px);
-}
+}*/
 
 .iconWrapper i {
   font-size: 1.8rem;
