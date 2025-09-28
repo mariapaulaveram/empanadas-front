@@ -6,6 +6,7 @@ import CarritoResumen from '../componentes/CarritoResumen';
 import FormularioPedido from '../componentes/FormularioPedido';
 import EntregaSelector from '../componentes/EntregaSelector';
 import EditarProductoModal from '../componentes/EditarProductoModal';
+
 import styles from '../styles/Home.module.css';
 
 const Home = () => {
