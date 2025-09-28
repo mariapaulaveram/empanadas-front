@@ -2,16 +2,14 @@ import React, { useState } from 'react';
 import styles from '../styles/DocenaEmpanadas.module.css';
 
 const saboresDisponibles = [
-  "Carne Frita",
-  "Carne Horno",
-  "Jamón y Queso Frita",
-  "Jamón y Queso Horno",
-  "Queso y Cebolla Horno",
-  "Queso y Cebolla Frita",
-  "Humita Horno"
+  "Carne",
+  "Jamón y Queso",
+  "Queso y Cebolla",
+  "Pollo",
+  "Humita"
 ];
 
-const DocenaEmpanadasModal = ({ onAgregar, onCancelar, precioUnitario = 24800 }) => {
+const DocenaEmpanadasModal = ({ imagen, onAgregar, onCancelar, precioUnitario = 24800 }) => {
   const [cantidadDocenas, setCantidadDocenas] = useState(1);
   const [sabores, setSabores] = useState(
     saboresDisponibles.map(nombre => ({ nombre, cantidad: 0 }))
@@ -37,38 +35,45 @@ const DocenaEmpanadasModal = ({ onAgregar, onCancelar, precioUnitario = 24800 })
       .map(s => `${s.cantidad} ${s.nombre}`)
       .join(', ');
 
-        const producto = {
-            id: 9, // si lo tenés en la base de datos
-            nombre: "Docena de empanadas a elección",
-            cantidad: cantidadDocenas,
-            precio: precioUnitario,
-            comentario: detalle
-        };
-
-
-        onAgregar(producto);
+    const producto = {
+      id: 9, // si lo tenés en la base de datos
+      nombre: "Docena de empanadas a elección",
+      cantidad: cantidadDocenas,
+      precio: precioUnitario,
+      comentario: detalle
     };
+
+
+    onAgregar(producto);
+  };
 
   return (
     <div className={styles.modalOverlay}>
       <div className={styles.modal}>
         <h2>Docena de empanadas a elección</h2>
-        <p>Incluye yasgua</p>
 
-        <label>Cantidad de docenas:</label>
-        <input
-          type="number"
-          min={1}
-          value={cantidadDocenas}
-          onChange={e => {
-            const nueva = parseInt(e.target.value);
-            if (nueva >= 1) {
-              setCantidadDocenas(nueva);
+        <div className={styles.docenaSelector}>
+          <button
+            className={styles.btnDocena}
+            onClick={() => {
+              if (cantidadDocenas > 1) {
+                setCantidadDocenas(cantidadDocenas - 1);
+                setSabores(saboresDisponibles.map(nombre => ({ nombre, cantidad: 0 })));
+              }
+            }}
+          >−</button>
+
+          <span className={styles.docenaCantidad}>{cantidadDocenas}</span>
+
+          <button
+            className={styles.btnDocena}
+            onClick={() => {
+              setCantidadDocenas(cantidadDocenas + 1);
               setSabores(saboresDisponibles.map(nombre => ({ nombre, cantidad: 0 })));
-            }
-          }}
-          className={styles.input}
-        />
+            }}
+          >+</button>
+        </div>
+
 
         <h3>Selecciona tus sabores</h3>
         <p>Selecciona entre {totalSeleccionado} / {totalEsperado} opciones</p>
@@ -76,11 +81,12 @@ const DocenaEmpanadasModal = ({ onAgregar, onCancelar, precioUnitario = 24800 })
         {sabores.map((sabor, index) => (
           <div key={sabor.nombre} className={styles.saborItem}>
             <span>{sabor.nombre}</span>
-            <div>
-              <button onClick={() => actualizarCantidad(index, -1)}>-</button>
+            <div className={styles.controles}>
+              <button className={styles.btnCantidad} onClick={() => actualizarCantidad(index, -1)}>-</button>
               <span className={styles.contador}>{sabor.cantidad}</span>
-              <button onClick={() => actualizarCantidad(index, 1)}>+</button>
+              <button className={styles.btnCantidad} onClick={() => actualizarCantidad(index, 1)}>+</button>
             </div>
+
           </div>
         ))}
 

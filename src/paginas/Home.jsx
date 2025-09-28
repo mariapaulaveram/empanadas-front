@@ -53,6 +53,8 @@ const Home = () => {
     });
   };
 
+  
+
   const calcularSubtotal = () =>
     carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
 
@@ -111,6 +113,7 @@ const Home = () => {
       });
   };
 
+  
 
   return (
     <>

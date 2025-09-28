@@ -30,12 +30,15 @@ const ProductoCard = ({ producto, onAgregar }) => {
 
       {modalAbierto && tipo === "combo" && (
         <DocenaEmpanadasModal
+          imagen={imagen} // 👈 pasás la imagen del producto combo
           onAgregar={(productoFinal) => {
-            onAgregar({ ...productoFinal, id }); // usa el id del producto combo
+            onAgregar({ ...productoFinal, id, imagen }); // también se la agregás al producto
             setModalAbierto(false);
           }}
+          onCancelar={() => setModalAbierto(false)}
         />
       )}
+
     </>
   );
 };
