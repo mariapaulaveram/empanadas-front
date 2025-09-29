@@ -30,6 +30,51 @@ Me inspiré en el diseño y experiencia de usuario de [menu.fu.do/more](https://
 
 ---
 
+## 📁 Estructura del proyecto
+
+```plaintext
+├── public/
+│   └── logo.png                     # Logo del negocio e imagenes varias
+│
+├── src/
+│   ├── componentes/                 # Componentes reutilizables
+│   │   ├── layouts/                 # Layout general (estructura base)
+│   │   │   ├── Layout.jsx           # Componente principal de layout
+│   │   │   ├── Header.jsx           # Encabezado del sitio (navbar)
+│   │   │   └── Footer.jsx           # Pie de página
+│   │   ├── CarritoItem.jsx         # Ítem individual en el carrito
+│   │   ├── CarritoResumen.jsx      # Resumen de precios y botón de continuar
+│   │   ├── DocenaEmpanadasModal.jsx# Modal para elegir sabores de docena
+│   │   ├── EditarProductoModal.jsx # Modal para editar cantidad y comentario
+│   │   ├── EntregaSelector.jsx     # Selector de tipo de entrega
+│   │   ├── FormularioPedido.jsx    # Formulario de datos del cliente
+│   │   └── ProductoCard.jsx        # Tarjeta de producto en el catálogo
+│
+│   ├── paginas/                    # Páginas principales
+│   │   └── Home.jsx                # Página principal con menú y carrito
+│
+│   ├── styles/                     # Estilos con CSS Modules
+│   │   ├── Home.module.css
+│   │   ├── CarritoItem.module.css
+│   │   ├── CarritoResumen.module.css
+│   │   ├── DocenaEmpanadas.module.css
+│   │   ├── EditarProductoModal.module.css
+│   │   ├── EntregaSelector.module.css
+│   │   ├── FormularioPedido.module.css
+│   │   ├── Header.module.css
+│   │   ├── Footer.module.css
+│   │   └── ProductoCard.module.css
+│   │
+│   ├── App.jsx                     # Configuración de rutas
+│   └── main.jsx                    # Punto de entrada de la app
+│
+├── .gitignore                      # Archivos y carpetas ignoradas por Git
+├── README.md                       # Documentación del proyecto
+└── index.html                      # HTML base para Vite
+
+
+```
+
 ##  Cómo correr el proyecto
 
 1. Cloná el repositorio:
