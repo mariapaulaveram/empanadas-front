@@ -21,14 +21,10 @@ const EditarProductoModal = ({ producto, cantidad, setCantidad, onGuardar, onCan
 
                 <div className={styles.controles}>
                     <button onClick={() => setCantidad(Math.max(1, cantidad - 1))}>−</button>
-                    <input
-                        type="number"
-                        min="1"
-                        value={cantidad}
-                        onChange={(e) => setCantidad(Number(e.target.value))}
-                    />
+                    <span className={styles.contador}>{cantidad}</span>
                     <button onClick={() => setCantidad(cantidad + 1)}>+</button>
                 </div>
+
                 <textarea
                     placeholder="Comentario (opcional)"
                     value={comentario}

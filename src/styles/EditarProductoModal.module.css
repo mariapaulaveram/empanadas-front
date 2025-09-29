@@ -14,18 +14,18 @@
 .modal {
   background: white;
   padding: 2rem;
-  border-radius: 10px;
+  border-radius: 16px;
   width: 100%;
-  max-width: 400px;
+  max-width: 480px;
   text-align: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
 .imagen {
   width: 100%;
   max-height: 200px;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 12px;
   margin-bottom: 1rem;
 }
 
@@ -37,11 +37,35 @@
   margin: 1rem 0;
 }
 
-.controles input {
-  width: 60px;
-  text-align: center;
+.controles button {
+  background-color: #f2f2f2;
+  border: none;
+  border-radius: 6px;
+  width: 32px;
+  height: 32px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.controles button:hover {
+  background-color: #e0e0e0;
+}
+
+.contador {
+  font-weight: bold;
   font-size: 16px;
-  padding: 0.4rem;
+  width: 32px;
+  text-align: center;
+}
+
+.contadorComentario {
+  font-size: 12px;
+  color: #666;
+  text-align: right;
+  margin-top: 4px;
 }
 
 .botones {
@@ -51,21 +75,26 @@
 }
 
 .botones button {
-  padding: 0.6rem 1rem;
+  padding: 10px 16px;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 14px;
   cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .botones button:first-child {
-  background-color: #27ae60;
+  background-color: #b85c38;
   color: white;
 }
 
+.botones button:first-child:hover {
+  background-color: #a24f30;
+}
+
 .botones button:last-child {
-  background-color: #e74c3c;
-  color: white;
+  background-color: transparent;
+  color: #666;
 }
 
 .textarea {
@@ -84,16 +113,10 @@
   color: #ff5023;
 }
 
-.contador {
-  font-size: 12px;
-  color: #666;
-  text-align: right;
-  margin-top: 4px;
-}
-
 .subtotal {
   font-size: 15px;
   font-weight: bold;
   margin-top: 0.5rem;
   color: #333;
 }
+
