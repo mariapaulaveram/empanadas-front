@@ -153,3 +153,9 @@ Desarrollado por MPVM — 2025 Inspirado en menu.fu.do/more
 - Ampliar el menú con nuevos sabores y productos   
 - Validación más robusta en el formulario de cliente  
 - Animaciones suaves y mejoras de accesibilidad
+
+
+## Licencia
+
+Este proyecto está bajo la Licencia MIT. Podés usarlo, modificarlo y distribuirlo libremente, siempre que mantengas los créditos originales.  
+Ver el archivo [LICENSE](./LICENSE) para más detalles.

@@ -3,7 +3,7 @@ import styles from "../../styles/Footer.module.css";
 const Footer = () => {
   return (
     <footer className={styles.footer}>
-      <span>MPVM © Todos los derechos reservados</span>
+      <span>© 2025 María Paula Vera Morandini — Licencia MIT</span>
     </footer>
   );
 };
